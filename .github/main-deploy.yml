@@ -1,0 +1,27 @@
+name: Deploy without SSH Key
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Connect to Tailscale
+        uses: tailscale/github-action@v2
+        with:
+          authkey: ${{ secrets.TS_AUTHKEY }}
+          version: 1.60.0
+
+      - name: Deploy via Tailscale SSH
+        run: |
+          ssh -o StrictHostKeyChecking=no ${{ secrets.USERNAME }}@${{ secrets.HOST }} "
+            cd /home/${{ secrets.USERNAME }}/discordbot/src && \
+            git pull origin main && \
+            docker compose up -d --build && \
+            docker image prune -f
+          "

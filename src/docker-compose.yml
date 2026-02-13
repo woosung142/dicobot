@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  discord-bot:
+    # 1. 현재 폴더(.)에 있는 Dockerfile로 이미지를 빌드해라
+    build: .
+    
+    # 2. 컨테이너 이름 (내 맘대로 지정)
+    container_name: my-test-bot
+    
+    # 3. .env 파일을 읽어서 토큰을 로딩해라 (필수!)
+    env_file:
+      - .env
+    
+    # 4. (선택) 로컬 파일을 컨테이너랑 연결 (동기화)
+    # 이걸 해두면 봇이 생성한 'warnings.json'이 내 컴퓨터에도 저장됩니다.
+    volumes:
+      - ./:/app
