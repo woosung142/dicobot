@@ -20,7 +20,7 @@ jobs:
       - name: Deploy via Tailscale SSH
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.USERNAME }}@${{ secrets.HOST }} "
-            cd /home/${{ secrets.USERNAME }}/discordbot/src && \
+            cd /home/${{ secrets.USERNAME }}/dicobot/src && \
             git pull origin main && \
             docker compose up -d --build && \
             docker image prune -f
